@@ -1,0 +1,851 @@
+/* ── Reset & Base ─────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* ── Colour ─────────────────────────────────────────────── */
+  --black:       #0a0a0a;
+  --white:       #ffffff;
+  --gray-50:     #fafafa;
+  --gray-100:    #f2f2f2;
+  --gray-200:    #e0e0e0;
+  --gray-400:    #767676;  /* darkened for WCAG AA on white (4.54:1) */
+  --gray-600:    #5a5a5a;
+
+  /* Translucent overlays — used on the lightbox, photo gradients,
+     and map-tile attribution. Named by base colour + alpha (a40 = 0.40). */
+  --white-a85:   rgba(255, 255, 255, 0.85);
+  --white-a75:   rgba(255, 255, 255, 0.75);
+  --white-a70:   rgba(255, 255, 255, 0.70);
+  --white-a60:   rgba(255, 255, 255, 0.60);
+  --white-a50:   rgba(255, 255, 255, 0.50);
+  --white-a40:   rgba(255, 255, 255, 0.40);
+  --black-a94:   rgba(10, 10, 10, 0.94);
+  --black-a65:   rgba(0, 0, 0, 0.65);
+  --black-a45:   rgba(10, 10, 10, 0.45);
+  --black-a30:   rgba(10, 10, 10, 0.30);
+  --black-a25:   rgba(10, 10, 10, 0.25);
+
+  /* ── Layout ─────────────────────────────────────────────── */
+  --header-h:    52px;
+  --panel-w:     440px;
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --serif:       'Playfair Display', Georgia, 'Times New Roman', serif;
+  --sans:        'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono:        'JetBrains Mono', 'Courier New', monospace;
+  --cjk:         'Noto Serif TC', 'Songti TC', 'PingFang TC', 'Microsoft JhengHei', serif;
+
+  /* Type scale — six named sizes. Roles in comments. */
+  --text-micro:  10px;   /* meta rows, overlay text, mono labels */
+  --text-xs:     11px;   /* nav, site title, hint, attribution */
+  --text-sm:     13px;   /* description body */
+  --text-base:   14px;   /* default body, lightbox caption */
+  --text-md:     15px;   /* story body */
+  --text-lg:     16px;   /* CJK local name, lightbox arrows */
+  --text-xl:     26px;   /* panel name (mobile) */
+  --text-2xl:    32px;   /* panel name (desktop) */
+
+  /* ── Spacing — 4 px grid ────────────────────────────────── */
+  --space-1:     4px;
+  --space-2:     8px;
+  --space-3:     12px;
+  --space-4:     16px;
+  --space-5:     20px;
+  --space-6:     24px;
+  --space-7:     28px;
+  --space-8:     32px;
+  --space-9:     36px;
+  --space-10:    40px;
+  --space-12:    48px;
+  --space-15:    60px;
+
+  /* ── Motion ─────────────────────────────────────────────── */
+  --ease:        cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast:  0.2s;
+  --duration-base:  0.3s;
+  --duration-slow:  0.38s;
+  --duration:    var(--duration-slow);  /* legacy alias */
+
+  /* ── Z-index scale ──────────────────────────────────────── */
+  --z-map:       1;
+  --z-hint:      600;
+  --z-bottom-nav: 700;
+  --z-panel:     800;
+  --z-header:    900;
+  --z-lightbox:  2000;
+  --z-skip:      10000;
+}
+
+html, body {
+  height: 100vh;
+  height: 100dvh;            /* iOS Safari address bar handling */
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--sans);
+  font-size: var(--text-base);
+  color: var(--black);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-h);
+  z-index: 900;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+}
+
+#site-title {
+  letter-spacing: 0.14em;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  font-family: var(--sans);
+  color: var(--black);
+  text-decoration: none;
+  transition: opacity var(--duration-fast);
+}
+
+#site-title:hover {
+  opacity: 0.5;
+}
+
+#location-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-7);
+}
+
+.nav-item {
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--gray-600);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color var(--duration-fast);
+  font-family: var(--sans);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid transparent;
+}
+
+.nav-item:hover {
+  color: var(--black);
+}
+
+.nav-item.active {
+  color: var(--black);
+  border-bottom-color: var(--black);
+}
+
+/* ── Map ──────────────────────────────────────────────────── */
+
+#map {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-map);
+  background: var(--gray-50);   /* visible while tiles load */
+  transition: right var(--duration-slow) var(--ease);
+}
+
+/* Loading state — visible until first tile loads (JS adds .tiles-loaded) */
+#map::before {
+  content: "Loading map…";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  color: var(--gray-400);
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+
+#map.tiles-loaded::before {
+  opacity: 0;
+}
+
+#map.panel-open {
+  right: var(--panel-w);
+}
+
+/* Grayscale map tiles */
+.leaflet-tile-pane {
+  filter: grayscale(1) contrast(1.05) brightness(1.02);
+}
+
+/* Remove Leaflet's default focus ring */
+.leaflet-container:focus {
+  outline: none;
+}
+
+/* Attribution minimal */
+.leaflet-control-attribution {
+  font-size: var(--text-xs) !important;
+  font-family: var(--mono) !important;
+  background: var(--white-a70) !important;
+  color: var(--gray-400) !important;
+  padding: 2px 6px !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--gray-400) !important;
+}
+
+/* Zoom controls */
+.leaflet-control-zoom {
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 0 !important;
+}
+
+.leaflet-control-zoom a {
+  font-family: var(--sans) !important;
+  color: var(--gray-600) !important;
+  background: var(--white) !important;
+  border-bottom: 1px solid var(--gray-200) !important;
+  width: 28px !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  font-size: var(--text-base) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  color: var(--black) !important;
+  background: var(--gray-50) !important;
+}
+
+.leaflet-control-zoom-out {
+  border-bottom: none !important;
+}
+
+/* ── First-visit hint ─────────────────────────────────────── */
+
+#map-hint {
+  position: fixed;
+  top: calc(var(--header-h) + var(--space-6));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-hint);
+  pointer-events: none;
+  font-size: var(--text-micro);
+  letter-spacing: 0.16em;
+  color: var(--gray-600);
+  background: var(--white-a85);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--gray-200);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+
+#map-hint.hidden {
+  opacity: 0;
+  transform: translate(-50%, -8px);
+}
+
+/* ── Custom Map Markers ───────────────────────────────────── */
+
+.marker-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.marker-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--black);
+  border: 2px solid var(--black);
+  transition: transform var(--duration-fast) var(--ease), background var(--duration-fast);
+  box-shadow: 0 0 0 0 var(--black-a30);
+}
+
+.marker-wrap:hover .marker-dot,
+.marker-wrap.active .marker-dot {
+  transform: scale(1.4);
+}
+
+.marker-wrap.active .marker-dot {
+  background: var(--white);
+}
+
+.marker-label {
+  font-family: var(--sans);
+  font-size: var(--text-micro);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--black);
+  white-space: nowrap;
+  background: var(--white);
+  padding: 2px 6px;
+  border: 1px solid var(--gray-200);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--duration-fast), transform var(--duration-fast);
+}
+
+.marker-wrap:hover .marker-label,
+.marker-wrap.active .marker-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Pulse animation for idle markers */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 var(--black-a25); }
+  70%  { box-shadow: 0 0 0 8px rgba(10,10,10,0); }
+  100% { box-shadow: 0 0 0 0 rgba(10,10,10,0); }
+}
+
+.marker-dot {
+  animation: pulse-ring 2.8s var(--ease) infinite;
+}
+
+.marker-wrap.active .marker-dot,
+.marker-wrap:hover .marker-dot {
+  animation: none;
+}
+
+/* ── Detail Panel ─────────────────────────────────────────── */
+
+#detail-panel {
+  position: fixed;
+  top: var(--header-h);
+  right: 0;
+  width: var(--panel-w);
+  height: calc(100vh - var(--header-h));
+  background: var(--white);
+  border-left: 1px solid var(--gray-200);
+  z-index: var(--z-panel);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform var(--duration-slow) var(--ease);
+
+  /* Hide scrollbar visually but keep function */
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-200) transparent;
+}
+
+#detail-panel::-webkit-scrollbar {
+  width: 3px;
+}
+
+#detail-panel::-webkit-scrollbar-thumb {
+  background: var(--gray-200);
+}
+
+#detail-panel.open {
+  transform: translateX(0);
+}
+
+#panel-close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 10;
+  color: var(--gray-400);
+  transition: color var(--duration-fast);
+  background: var(--white);
+  padding: var(--space-3);     /* 12px → 38×38 target on desktop, closer to 44 */
+}
+
+#panel-close:hover {
+  color: var(--black);
+}
+
+#panel-content {
+  padding: var(--space-10) var(--space-10) var(--space-15);
+  clear: both;
+}
+
+/* Panel header */
+
+#panel-header {
+  margin-bottom: var(--space-9);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+#panel-meta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  color: var(--gray-400);
+  font-size: var(--text-micro);
+  letter-spacing: 0.08em;
+}
+
+.meta-sep {
+  color: var(--gray-200);
+}
+
+#panel-name {
+  font-family: var(--serif);
+  font-size: var(--text-2xl);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-1);
+}
+
+.local-name {
+  /* CJK-first stack — Latin fonts mishandle Han characters */
+  font-family: var(--cjk);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  color: var(--gray-600);
+  margin-bottom: var(--space-1);
+  /* letter-spacing intentionally omitted — CJK doesn't take to it */
+}
+
+.subtitle {
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  color: var(--gray-400);
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-4);
+}
+
+#panel-tags {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: var(--text-micro);    /* bumped from 9px for legibility */
+  letter-spacing: 0.1em;
+  color: var(--gray-600);
+  border: 1px solid var(--gray-200);
+  padding: 3px var(--space-2);
+  text-transform: uppercase;
+}
+
+/* Panel body text */
+
+#panel-body {
+  margin-bottom: var(--space-10);
+}
+
+#panel-description {
+  font-family: var(--sans);
+  font-size: var(--text-sm);
+  line-height: 1.75;
+  color: var(--gray-600);
+  margin-bottom: var(--space-6);
+}
+
+#panel-story {
+  font-family: var(--serif);
+  font-size: var(--text-md);
+  line-height: 1.85;
+  color: var(--black);
+}
+
+#panel-story p {
+  margin-bottom: 18px;
+}
+
+#panel-story p:last-child {
+  margin-bottom: 0;
+}
+
+/* Photos */
+
+#panel-photos-section {
+  border-top: 1px solid var(--gray-200);
+  padding-top: var(--space-8);
+}
+
+/* Section label — quiet editorial heading above the photo grid.
+   Hidden via JS when a location has no photos. */
+.section-label {
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin: 0 0 var(--space-4);
+}
+
+#panel-photos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.photo-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--gray-100);
+  aspect-ratio: 1 / 1;
+}
+
+.photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s var(--ease);
+  filter: grayscale(1);
+}
+
+.photo-item:hover img {
+  transform: scale(1.03);
+  filter: grayscale(0.6);
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--black-a65) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease);
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-3);
+}
+
+.photo-item:hover .photo-overlay {
+  opacity: 1;
+}
+
+.photo-overlay-text {
+  font-family: var(--sans);
+  font-size: var(--text-micro);
+  color: var(--white);
+  line-height: 1.5;
+}
+
+.photo-overlay-date {
+  font-family: var(--mono);
+  font-size: var(--text-micro);   /* bumped from 9px for legibility */
+  color: var(--white-a60);
+  display: block;
+  margin-top: 2px;
+}
+
+/* Full-width photo if odd count */
+.photo-item.full-width {
+  grid-column: span 2;
+  aspect-ratio: 2 / 1;
+}
+
+.no-photos {
+  padding: var(--space-10) 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: var(--text-micro);
+  letter-spacing: 0.1em;
+  color: var(--gray-400);
+  text-transform: uppercase;
+}
+
+/* ── Lightbox ─────────────────────────────────────────────── */
+
+#lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-lightbox);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease);
+}
+
+#lightbox.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--black-a94);
+  cursor: pointer;
+}
+
+#lightbox-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  max-width: calc(100vw - 80px);
+  max-height: calc(100vh - 80px);
+}
+
+#lightbox-close {
+  position: fixed;
+  top: var(--space-6);
+  right: var(--space-7);
+  color: var(--white-a50);
+  transition: color var(--duration-fast);
+  padding: var(--space-2);
+}
+
+#lightbox-close:hover {
+  color: var(--white);
+}
+
+#lightbox-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  max-height: calc(100vh - 80px);
+}
+
+#lightbox-img {
+  max-width: 78vw;
+  max-height: 78vh;
+  object-fit: contain;
+  display: block;
+  filter: grayscale(0.2);
+}
+
+#lightbox-info {
+  text-align: center;
+  max-width: 520px;
+}
+
+#lightbox-caption {
+  font-family: var(--serif);
+  font-size: var(--text-base);
+  font-style: italic;
+  color: var(--white-a75);
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+#lightbox-date {
+  font-size: var(--text-micro);
+  color: var(--white-a60);
+  letter-spacing: 0.1em;
+}
+
+#lightbox-prev,
+#lightbox-next {
+  font-size: var(--text-lg);
+  color: var(--white-a40);
+  padding: var(--space-4) var(--space-2);
+  transition: color var(--duration-fast);
+  flex-shrink: 0;
+}
+
+#lightbox-prev:hover,
+#lightbox-next:hover {
+  color: var(--white);
+}
+
+#lightbox-counter {
+  position: fixed;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--text-micro);
+  color: var(--white-a60);
+  letter-spacing: 0.12em;
+}
+
+/* ── Utility ──────────────────────────────────────────────── */
+
+.mono {
+  font-family: var(--mono);
+}
+
+/* Visually-hidden but available to screen readers and as focus target */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link — hidden until focused via keyboard */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: var(--space-2);
+  z-index: var(--z-skip);
+  background: var(--black);
+  color: var(--white);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: top 0.15s var(--ease);
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .marker-dot {
+    animation: none;
+  }
+  #detail-panel,
+  #map,
+  #lightbox,
+  .photo-item img,
+  .photo-overlay,
+  .marker-dot,
+  .marker-label {
+    transition: none;
+  }
+  /* Keep map flyTo snappy too */
+  .leaflet-fade-anim .leaflet-tile,
+  .leaflet-zoom-anim .leaflet-zoom-animated {
+    transition: none !important;
+  }
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  :root {
+    --panel-w: 100vw;
+    --bottom-nav-h: 48px;
+  }
+
+  #map.panel-open {
+    right: 0;
+  }
+
+  /* Mobile location nav — pinned to the bottom of the screen */
+  #location-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--bottom-nav-h);
+    background: var(--white);
+    border-top: 1px solid var(--gray-200);
+    z-index: var(--z-bottom-nav);   /* below header and panel */
+    justify-content: space-around;
+    gap: 0;
+    padding: 0 var(--space-3);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-item {
+    flex: 0 0 auto;
+    padding: 14px 10px;             /* ~44px touch target */
+    font-size: var(--text-micro);
+  }
+
+  /* Map sits above the bottom nav */
+  #map {
+    bottom: var(--bottom-nav-h);
+  }
+
+  /* Panel covers the bottom nav when open (z-panel > z-bottom-nav) */
+
+  #panel-name {
+    font-size: var(--text-xl);
+  }
+
+  #panel-content {
+    padding: var(--space-8) var(--space-6) var(--space-12);
+  }
+
+  /* WCAG 2.5.5 recommends ≥44px touch targets.
+     14px SVG + 15px padding each side = 44px. */
+  #panel-close {
+    padding: 15px;
+    top: 6px;
+    right: 6px;
+  }
+
+  #lightbox-close {
+    padding: 15px;
+  }
+
+  /* Keep lightbox arrows on mobile, styled as soft circular overlays
+     positioned on either side of the photo. */
+  #lightbox-prev,
+  #lightbox-next {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--black-a45);
+    color: var(--white-a85);
+    font-size: var(--text-lg);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+
+  #lightbox-prev { left: var(--space-3); }
+  #lightbox-next { right: var(--space-3); }
+
+  #lightbox-prev:hover,
+  #lightbox-next:hover {
+    background: var(--black-a65);
+    color: var(--white);
+  }
+
+  #lightbox-img {
+    max-width: 95vw;
+    max-height: 65vh;
+  }
+}

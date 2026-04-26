@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Field Notes</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── Skip Link (keyboard users) ────────────────────────── -->
+  <a class="skip-link" href="#map">Skip to map</a>
+
+  <!-- ── Document Heading (screen readers) ─────────────────── -->
+  <h1 class="visually-hidden">Field Notes</h1>
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
+  <header id="header">
+    <button id="site-title" onclick="resetView()" aria-label="Return to overview">
+      <span id="title-text">FIELD NOTES</span>
+    </button>
+    <nav id="location-nav" aria-label="Locations"></nav>
+  </header>
+
+  <!-- ── Map ───────────────────────────────────────────────── -->
+  <div id="map" tabindex="-1"></div>
+
+  <!-- ── First-visit hint (fades on first panel open) ──────── -->
+  <div id="map-hint" class="mono" aria-hidden="true">Select a location to begin</div>
+
+  <!-- ── Detail Panel ──────────────────────────────────────── -->
+  <aside id="detail-panel" aria-hidden="true" inert>
+
+    <button id="panel-close" aria-label="Close panel">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </button>
+
+    <div id="panel-content">
+
+      <div id="panel-header">
+        <div id="panel-meta-row">
+          <span id="panel-date" class="mono"></span>
+          <span class="meta-sep">·</span>
+          <span id="panel-coords" class="mono"></span>
+        </div>
+        <h2 id="panel-name" tabindex="-1"></h2>
+        <p id="panel-local-name" class="local-name"></p>
+        <p id="panel-subtitle" class="subtitle"></p>
+        <div id="panel-tags"></div>
+      </div>
+
+      <div id="panel-body">
+        <p id="panel-description"></p>
+        <div id="panel-story"></div>
+      </div>
+
+      <div id="panel-photos-section">
+        <h3 id="panel-photos-label" class="section-label mono">Photographs</h3>
+        <div id="panel-photos-grid"></div>
+        <div id="panel-no-photos" class="no-photos">
+          <span>No photographs yet</span>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- ── Lightbox ──────────────────────────────────────────── -->
+  <div id="lightbox" aria-hidden="true" inert role="dialog" aria-modal="true" aria-label="Photograph viewer">
+    <div id="lightbox-backdrop"></div>
+    <div id="lightbox-inner">
+      <button id="lightbox-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5"/>
+          <line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </button>
+      <button id="lightbox-prev" aria-label="Previous photograph">&#8592;</button>
+      <div id="lightbox-stage">
+        <img id="lightbox-img" src="" alt="">
+        <div id="lightbox-info">
+          <p id="lightbox-caption"></p>
+          <span id="lightbox-date" class="mono"></span>
+        </div>
+      </div>
+      <button id="lightbox-next" aria-label="Next photograph">&#8594;</button>
+      <div id="lightbox-counter" class="mono"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="data/locations.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
