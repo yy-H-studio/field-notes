@@ -24,7 +24,10 @@
     <button id="site-title" onclick="resetView()" aria-label="Return to overview">
       <span id="title-text">FIELD NOTES</span>
     </button>
-    <nav id="location-nav" aria-label="Locations"></nav>
+    <div id="header-right">
+      <nav id="location-nav" aria-label="Locations"></nav>
+      <button id="about-trigger" class="nav-item" aria-haspopup="dialog" aria-controls="about">About</button>
+    </div>
   </header>
 
   <!-- ── Map ───────────────────────────────────────────────── -->
@@ -93,6 +96,26 @@
       </div>
       <button id="lightbox-next" aria-label="Next photograph">&#8594;</button>
       <div id="lightbox-counter" class="mono"></div>
+    </div>
+  </div>
+
+  <!-- ── About Modal ───────────────────────────────────────── -->
+  <div id="about" aria-hidden="true" inert role="dialog" aria-modal="true" aria-labelledby="about-heading">
+    <div id="about-backdrop"></div>
+    <div id="about-card">
+      <button id="about-close" aria-label="Close about">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5"/>
+          <line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </button>
+      <p class="about-eyebrow mono">ABOUT</p>
+      <h2 id="about-heading">Hsieh Yi Yi</h2>
+      <div class="about-body">
+        <p>Hsieh Yi Yi (Taiwan) is a photographer whose practice bridges scholarly research and artistic expression. Trained in linguistics and archaeology at National Chiao Tung University, UCL, and Peking University, she spent over a decade researching Austronesian heritage, cultural preservation, and museum practice in Taiwan. These experiences shaped her sensitivity to landscapes as living archives of memory, history, and cultural connection.</p>
+        <p>In 2023, Hsieh encountered large-format photography for the first time, drawn to the medium's deliberate pace and contemplative quality. Walking with a 4&times;5 film camera through the mountains and shores of Taitung, she discovered photography not only as documentation but as an intimate dialogue with land. Her images often function as visual letters &mdash; quiet, attentive, and deeply rooted in the layered histories of place.</p>
+        <p>Her ongoing work focuses on Taiwan's culturally complex terrain, where contemporary Indigenous communities maintain vibrant practices while being linguistically tied to Austronesian seafaring heritage. Through photography, Hsieh seeks to translate academic research into emotional, visual language &mdash; inviting viewers to slow down and experience how landscapes transform both human stories and ways of seeing.</p>
+      </div>
     </div>
   </div>
 

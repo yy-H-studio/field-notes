@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   bindMarkerKeyboard();
   bindPanelClose();
   bindLightbox();
+  bindAbout();
 });
 
 /* ── Map ──────────────────────────────────────────────────── */
@@ -265,11 +266,13 @@ function populatePanel(loc) {
 function bindPanelClose() {
   document.getElementById('panel-close').addEventListener('click', closePanel);
 
-  // Close on Escape key
+  // Close on Escape key — priority: lightbox → about → panel
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       if (document.getElementById('lightbox').classList.contains('open')) {
         closeLightbox();
+      } else if (document.getElementById('about').classList.contains('open')) {
+        closeAbout();
       } else {
         closePanel();
       }
@@ -467,6 +470,50 @@ function trapFocus(container, e) {
   } else if (!e.shiftKey && document.activeElement === last) {
     e.preventDefault();
     first.focus();
+  }
+}
+
+/* ── About Modal ──────────────────────────────────────────── */
+
+let lastAboutFocus = null;
+
+function openAbout() {
+  const about = document.getElementById('about');
+  lastAboutFocus = document.activeElement;
+  about.removeAttribute('inert');
+  about.classList.add('open');
+  about.setAttribute('aria-hidden', 'false');
+  // Move focus into the modal so screen readers announce it and Tab is trapped inside
+  document.getElementById('about-close').focus();
+}
+
+function closeAbout() {
+  const about = document.getElementById('about');
+  about.classList.remove('open');
+  about.setAttribute('aria-hidden', 'true');
+  about.setAttribute('inert', '');
+  if (lastAboutFocus && typeof lastAboutFocus.focus === 'function') {
+    lastAboutFocus.focus();
+  }
+}
+
+function bindAbout() {
+  const trigger  = document.getElementById('about-trigger');
+  const closeBtn = document.getElementById('about-close');
+  const backdrop = document.getElementById('about-backdrop');
+  const modal    = document.getElementById('about');
+
+  if (trigger)  trigger.addEventListener('click', openAbout);
+  if (closeBtn) closeBtn.addEventListener('click', closeAbout);
+  if (backdrop) backdrop.addEventListener('click', closeAbout);
+
+  // Focus trap when the modal is open
+  if (modal) {
+    modal.addEventListener('keydown', e => {
+      if (e.key === 'Tab' && modal.classList.contains('open')) {
+        trapFocus(modal, e);
+      }
+    });
   }
 }
 

@@ -134,6 +134,12 @@ button {
   opacity: 0.5;
 }
 
+#header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-7);
+}
+
 #location-nav {
   display: flex;
   align-items: center;
@@ -688,6 +694,101 @@ button {
   font-size: var(--text-micro);
   color: var(--white-a60);
   letter-spacing: 0.12em;
+}
+
+/* ── About Modal ──────────────────────────────────────────── */
+
+#about {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-lightbox);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease);
+  padding: var(--space-4);
+}
+
+#about.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#about-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--black-a45);
+  cursor: pointer;
+}
+
+#about-card {
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  width: 100%;
+  max-width: 580px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  padding: var(--space-12) var(--space-10);
+  box-shadow: 0 10px 40px var(--black-a25);
+}
+
+#about-close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  color: var(--gray-400);
+  transition: color var(--duration-fast);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#about-close:hover {
+  color: var(--black);
+}
+
+.about-eyebrow {
+  font-size: var(--text-micro);
+  letter-spacing: 0.18em;
+  color: var(--gray-400);
+  margin-bottom: var(--space-4);
+}
+
+#about-heading {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: var(--text-2xl);
+  color: var(--black);
+  line-height: 1.2;
+  margin-bottom: var(--space-6);
+}
+
+.about-body p {
+  font-family: var(--serif);
+  font-size: var(--text-lg);
+  line-height: 1.7;
+  color: var(--gray-600);
+  margin-bottom: var(--space-4);
+}
+
+.about-body p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  #about-card {
+    padding: var(--space-10) var(--space-6);
+    max-height: calc(100vh - 32px);
+  }
+
+  #about-heading {
+    font-size: var(--text-xl);
+  }
 }
 
 /* ── Utility ──────────────────────────────────────────────── */
