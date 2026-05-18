@@ -90,17 +90,35 @@ const GALLERY_DATA = {
       localName: "屏東",
       subtitle: "Wutai Township · 22°N 120°E",
       coordinates: [22.7417, 120.7322],
-      date: "2024",
+      date: "2025",
       tags: ["mountain", "Indigenous", "Rukai"],
       description: "Wutai, a mountain township in Taiwan, was home to the Rukai, an aboriginal community. The Rukai are famous for their legend: it's said that the moon stopped by and settled on the spot where their original community was built, which is why the location is also known as the “tribe of the moon.”",
       story: "",
       photos: [
-        // Add photos here when ready. Example:
-        // {
-        //   filename: "kenting-reef.jpg",
-        //   caption: "The reef shelf at low tide near Kenting.",
-        //   date: "2024.May"
-        // }
+        {
+          filename: "pt-001-chapel.jpg",
+          caption: "Chapel.",
+          alt: "",
+          date: "2025 November"
+        },
+        {
+          filename: "pt-002-slate.jpg",
+          caption: "Slate.",
+          alt: "",
+          date: "2025 November"
+        },
+        {
+          filename: "pt-003-traditional-house.jpg",
+          caption: "Traditional house.",
+          alt: "",
+          date: "2025 November"
+        },
+        {
+          filename: "pt-004-wutai.jpg",
+          caption: "Wutai.",
+          alt: "",
+          date: "2025 November"
+        },
       ]
     },
 
